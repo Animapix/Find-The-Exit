@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(RobotController))]
+[RequireComponent(typeof(RobotTracksController))]
 public class RobotMovement : MonoBehaviour
 {
     private Vector3 currentDirection = Vector3.forward;
@@ -15,8 +17,13 @@ public class RobotMovement : MonoBehaviour
     private bool isMoving = false;
     [SerializeField] public float timeToMove = 1.0f;
     [SerializeField] private float stepSize = 4.0f;
+    [SerializeField] public float energyToMove = 1.0f;
     [SerializeField] private LayerMask wallLayerMask;
     [SerializeField] private LayerMask floorLayerMask;
+
+
+    public System.Action<float> ConsumeEnergyCallback;
+
 
     private void Update()
     {
@@ -44,7 +51,6 @@ public class RobotMovement : MonoBehaviour
                 currentDirection = targetDirection;
             }
         }
-        
     }
 
     private bool CheckNextPosition()
@@ -64,7 +70,6 @@ public class RobotMovement : MonoBehaviour
     private IEnumerator Rotate(float angle)
     {
         isMoving = true;
-
         float elapsedTime = 0;
         originalRotation = transform.localEulerAngles;
         targetRotation = transform.localEulerAngles + new Vector3(0, angle, 0);
@@ -79,6 +84,7 @@ public class RobotMovement : MonoBehaviour
             transform.eulerAngles = Vector3.Lerp(originalRotation, targetRotation, (elapsedTime / timeToRotate));
             GetComponent<RobotTracksController>().rotation += (((2*Mathf.PI*1.810792f)/360)* angle / timeToRotate) * Time.deltaTime;
             elapsedTime += Time.deltaTime;
+            ConsumeEnergyCallback(energyToMove * Time.deltaTime);
             yield return null;
         }
         transform.eulerAngles = targetRotation;
@@ -88,7 +94,7 @@ public class RobotMovement : MonoBehaviour
     private IEnumerator Move(Vector3 direction)
     {
         isMoving = true;
-
+        
         float elapsedTime = 0;
         originalPosition = transform.position;
         targetPosition = originalPosition + direction * stepSize;
@@ -99,6 +105,7 @@ public class RobotMovement : MonoBehaviour
             transform.position = Vector3.Lerp(originalPosition, targetPosition, (elapsedTime / timeToMove));
             GetComponent<RobotTracksController>().rotation += (stepSize / timeToMove) * Time.deltaTime;
             elapsedTime += Time.deltaTime;
+            ConsumeEnergyCallback(energyToMove * Time.deltaTime);
             yield return null;
         }
         transform.position = targetPosition;

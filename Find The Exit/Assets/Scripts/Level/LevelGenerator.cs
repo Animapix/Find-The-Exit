@@ -5,9 +5,10 @@ using UnityEngine;
 public class LevelGenerator : MonoBehaviour
 {
     [SerializeField] GameObject tilePrefab;
+    [SerializeField] GameObject batteryPrefab;
     [SerializeField] float tileSize = 4.0f;
 
-    private int chunkColumns = 11;
+    private int chunkColumns = 15;
     private int chunkRows = 20;
 
     private List<List<Tile>> tiles = new List<List<Tile>>();
@@ -31,9 +32,9 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int column = 0; column < chunkColumns; column++)
             {
-                Tile tile = CreateTile(column, row);
+                bool isWall = maze[column, row] == Maze.CellType.Wall;
+                Tile tile = CreateTile(column, row, isWall);
                 tiles[column].Add(tile);
-                if (maze[column, row] == Maze.CellType.Wall) tile.isWall = true;
             }
         }
 
@@ -48,7 +49,7 @@ public class LevelGenerator : MonoBehaviour
 
     }
 
-    private Tile CreateTile(int column, int row)
+    private Tile CreateTile(int column, int row, bool isWall)
     {
         float x  = column * tileSize;
         float z  = row * tileSize;
@@ -56,6 +57,15 @@ public class LevelGenerator : MonoBehaviour
         Tile tile = Instantiate(tilePrefab, transform).GetComponent<Tile>();
         tile.transform.position = new Vector3(x, 0, z);
         tile.name = $"Tile {column}-{row}";
+        
+        tile.isWall = isWall;
+
+        int rnd = Random.Range(0, 100);
+        if (!isWall && rnd < 10)
+        {
+            Battery battery = Instantiate(batteryPrefab, transform).GetComponent<Battery>();
+            battery.transform.position = new Vector3(x, 2, z);
+        }
 
         return tile;
     }
