@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bedc1d116467de4408ac7f6016841877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToMove: 1
+  timeToMove: 0.5
   stepSize: 4
 --- !u!1 &6246200691064504762
 GameObject:
