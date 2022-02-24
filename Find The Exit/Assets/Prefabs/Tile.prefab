@@ -50,7 +50,7 @@ MonoBehaviour:
   tileSize: 4
   autoTileLayerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 128
   wallMeshes:
   - {fileID: -2591967738878157768, guid: 9bf3e8187deebc343a2b5a1844169bc0, type: 3}
   - {fileID: 8980115498675584859, guid: 9bf3e8187deebc343a2b5a1844169bc0, type: 3}
@@ -82,7 +82,7 @@ GameObject:
   - component: {fileID: 494942780533345115}
   - component: {fileID: 494942780533345062}
   - component: {fileID: 494942780533345113}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 494942781322990751}
   - component: {fileID: 494942781322990750}
   - component: {fileID: 494942781322990748}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}

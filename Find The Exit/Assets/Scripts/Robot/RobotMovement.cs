@@ -15,7 +15,8 @@ public class RobotMovement : MonoBehaviour
     private bool isMoving = false;
     [SerializeField] public float timeToMove = 1.0f;
     [SerializeField] private float stepSize = 4.0f;
-    [SerializeField] private LayerMask stopMoveLayerMask;
+    [SerializeField] private LayerMask wallLayerMask;
+    [SerializeField] private LayerMask floorLayerMask;
 
     private void Update()
     {
@@ -48,8 +49,8 @@ public class RobotMovement : MonoBehaviour
 
     private bool CheckNextPosition()
     {
-        Collider[] wallColliders = Physics.OverlapBox(gameObject.transform.position + currentDirection* stepSize + Vector3.up * 2 , new Vector3(1, 1, 1), Quaternion.identity, stopMoveLayerMask);
-        Collider[] floorColliders = Physics.OverlapBox(gameObject.transform.position + currentDirection* stepSize + Vector3.down / 2 , new Vector3(1, 1, 1), Quaternion.identity, stopMoveLayerMask);
+        Collider[] wallColliders = Physics.OverlapBox(gameObject.transform.position + currentDirection* stepSize + Vector3.up * 2 , new Vector3(1, 1, 1), Quaternion.identity, wallLayerMask);
+        Collider[] floorColliders = Physics.OverlapBox(gameObject.transform.position + currentDirection* stepSize + Vector3.down / 2 , new Vector3(1, 1, 1), Quaternion.identity, floorLayerMask);
         return wallColliders.Length == 0 && floorColliders.Length > 0;
     }
 
