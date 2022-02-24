@@ -63,8 +63,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bedc1d116467de4408ac7f6016841877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToMove: 0.5
+  timeToMove: 0.3
   stepSize: 4
+  stopMoveLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &6246200691064504762
 GameObject:
   m_ObjectHideFlags: 0

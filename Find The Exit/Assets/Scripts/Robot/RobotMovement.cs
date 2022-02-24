@@ -15,6 +15,7 @@ public class RobotMovement : MonoBehaviour
     private bool isMoving = false;
     [SerializeField] public float timeToMove = 1.0f;
     [SerializeField] private float stepSize = 4.0f;
+    [SerializeField] private LayerMask stopMoveLayerMask;
 
     private void Update()
     {
@@ -33,7 +34,8 @@ public class RobotMovement : MonoBehaviour
         {
             if (targetDirection == currentDirection)
             {
-                StartCoroutine(Move(currentDirection));
+                if (CheckNextPosition())
+                    StartCoroutine(Move(currentDirection));
             }
             else
             {
@@ -43,6 +45,21 @@ public class RobotMovement : MonoBehaviour
         }
         
     }
+
+    private bool CheckNextPosition()
+    {
+        Collider[] wallColliders = Physics.OverlapBox(gameObject.transform.position + currentDirection* stepSize + Vector3.up * 2 , new Vector3(1, 1, 1), Quaternion.identity, stopMoveLayerMask);
+        Collider[] floorColliders = Physics.OverlapBox(gameObject.transform.position + currentDirection* stepSize + Vector3.down / 2 , new Vector3(1, 1, 1), Quaternion.identity, stopMoveLayerMask);
+        return wallColliders.Length == 0 && floorColliders.Length > 0;
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(gameObject.transform.position + currentDirection * stepSize + Vector3.up * 2, new Vector3(1, 1, 1));
+        Gizmos.DrawWireCube(gameObject.transform.position + currentDirection * stepSize + Vector3.down/2, new Vector3(1, 1, 1));
+    }
+
     private IEnumerator Rotate(float angle)
     {
         isMoving = true;
