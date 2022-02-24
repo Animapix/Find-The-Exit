@@ -47,7 +47,7 @@ public class Tile : MonoBehaviour
         { NeighboorFlags.West | NeighboorFlags.North | NeighboorFlags.Est | NeighboorFlags.South , 15 },
     };
 
-    private void Start()
+    private void Update()
     {
         Autotile();
     }
@@ -88,6 +88,15 @@ public class Tile : MonoBehaviour
             return tile.isWall;
         }
         return false;
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(gameObject.transform.position + Vector3.forward * tileSize - new Vector3(0, 0.5f, 0), new Vector3(1, 0.1f, 1));
+        Gizmos.DrawWireCube(gameObject.transform.position + Vector3.right * tileSize - new Vector3(0, 0.5f, 0), new Vector3(1, 0.1f, 1));
+        Gizmos.DrawWireCube(gameObject.transform.position + Vector3.back * tileSize - new Vector3(0, 0.5f, 0), new Vector3(1, 0.1f, 1));
+        Gizmos.DrawWireCube(gameObject.transform.position + Vector3.left * tileSize - new Vector3(0, 0.5f, 0), new Vector3(1, 0.1f, 1));
     }
 
     private void setWall(int wallID = -1)

@@ -8,10 +8,12 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] GameObject batteryPrefab;
     [SerializeField] float tileSize = 4.0f;
 
-    private int chunkColumns = 15;
-    private int chunkRows = 20;
+    [SerializeField] public int chunkColumns = 15;
+    [SerializeField] public int chunkRows = 20;
 
     private List<List<Tile>> tiles = new List<List<Tile>>();
+
+    public int lastRow { get => tiles[0].Count; }
 
     private void Start()
     {
@@ -21,32 +23,38 @@ public class LevelGenerator : MonoBehaviour
         }
 
         CreateChunk();
-
+        CreateChunk();
     }
 
-    private void CreateChunk()
+    public void CreateChunk()
     {
+
+        int rowOffset = tiles[0].Count;
         Maze.CellType[,] maze = Maze.Generate(chunkColumns, chunkRows);
+
+
+        if (rowOffset != 0)
+        {
+            List<int> avaibleOutputs = new List<int>();
+            for (int column = 1; column < chunkColumns; column += 2)
+            {
+                bool isWall = tiles[column][rowOffset - 2].isWall;
+                if (isWall) avaibleOutputs.Add(column);
+            }
+            int randomOutput = avaibleOutputs[Random.Range(0, avaibleOutputs.Count)];
+            maze[randomOutput, 0] = Maze.CellType.Floor;
+        }
+        
 
         for (int row = 0; row < chunkRows; row++)
         {
             for (int column = 0; column < chunkColumns; column++)
             {
                 bool isWall = maze[column, row] == Maze.CellType.Wall;
-                Tile tile = CreateTile(column, row, isWall);
+                Tile tile = CreateTile(column, row + rowOffset, isWall);
                 tiles[column].Add(tile);
             }
         }
-
-        for (int row = 0; row < chunkRows; row++)
-        {
-            for (int column = 0; column < chunkColumns; column++)
-            {
-                Tile tile = tiles[column][row];
-                tile.Autotile();
-            }
-        }
-
     }
 
     private Tile CreateTile(int column, int row, bool isWall)

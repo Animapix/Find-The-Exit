@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(RobotTracksController))]
 public class RobotMovement : MonoBehaviour
 {
-    private Vector3 currentDirection = Vector3.forward;
+    public Vector3 currentDirection = Vector3.forward;
 
     private Vector3 originalPosition;
     private Vector3 targetPosition;
@@ -16,7 +16,7 @@ public class RobotMovement : MonoBehaviour
 
     private bool isMoving = false;
     [SerializeField] public float timeToMove = 1.0f;
-    [SerializeField] private float stepSize = 4.0f;
+    [SerializeField] public float stepSize = 4.0f;
     [SerializeField] public float energyToMove = 1.0f;
     [SerializeField] private LayerMask wallLayerMask;
     [SerializeField] private LayerMask floorLayerMask;
@@ -27,6 +27,9 @@ public class RobotMovement : MonoBehaviour
 
     private void Update()
     {
+
+        if(GetComponent<RobotController>().currentState != RobotController.State.Idle) return;
+
         Vector3 targetDirection = Vector3.zero;
 
         if (Input.GetKey(KeyCode.LeftArrow))
@@ -43,12 +46,16 @@ public class RobotMovement : MonoBehaviour
             if (targetDirection == currentDirection)
             {
                 if (CheckNextPosition())
+                {
                     StartCoroutine(Move(currentDirection));
+                    GetComponent<RobotController>().currentState = RobotController.State.Move;
+                }
             }
             else
             {
                 StartCoroutine(Rotate(Vector3.SignedAngle(currentDirection, targetDirection, Vector3.up)));
                 currentDirection = targetDirection;
+                GetComponent<RobotController>().currentState = RobotController.State.Move;
             }
         }
     }
@@ -89,6 +96,7 @@ public class RobotMovement : MonoBehaviour
         }
         transform.eulerAngles = targetRotation;
         isMoving = false;
+        GetComponent<RobotController>().currentState = RobotController.State.Idle;
     }
 
     private IEnumerator Move(Vector3 direction)
@@ -110,5 +118,6 @@ public class RobotMovement : MonoBehaviour
         }
         transform.position = targetPosition;
         isMoving = false;
+        GetComponent<RobotController>().currentState = RobotController.State.Idle;
     }
 }
