@@ -21,7 +21,8 @@ public class Tile : MonoBehaviour
     [SerializeField] LayerMask autoTileLayerMask;
     [SerializeField] List<Mesh> wallMeshes;
 
-    public bool isWall = false;
+    private bool _isWall = false;
+    public bool isWall { get{ return _isWall; } set { _isWall = value; Autotile(); } }
 
     private Dictionary<NeighboorFlags, int> bitMaskTable = new Dictionary<NeighboorFlags, int>() {
         { NeighboorFlags.None, 0 },
@@ -47,9 +48,20 @@ public class Tile : MonoBehaviour
         { NeighboorFlags.West | NeighboorFlags.North | NeighboorFlags.Est | NeighboorFlags.South , 15 },
     };
 
-    private void Update()
+
+    public (int column, int row) coordinates
     {
-        Autotile();
+        get
+        {
+            int column = Mathf.FloorToInt(transform.position.x / tileSize);
+            int row = Mathf.FloorToInt(transform.position.z / tileSize);
+            return (column, row);
+        }
+    }
+
+    private void Awake()
+    {
+        setWall();
     }
 
     public void Autotile()

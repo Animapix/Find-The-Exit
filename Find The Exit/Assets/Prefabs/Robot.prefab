@@ -112,7 +112,7 @@ MonoBehaviour:
   laserImpactLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  energyToShoot: 5
+  energyToShoot: 40
 --- !u!65 &3436213461248725727
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -149,7 +149,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2737483193724493827}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

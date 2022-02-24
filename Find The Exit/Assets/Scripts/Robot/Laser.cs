@@ -48,6 +48,7 @@ public class Laser : MonoBehaviour
                 isActive = false;
                 GetComponent<RobotController>().currentState = RobotController.State.Idle;
                 target.isWall = false;
+                StartCoroutine(GameController.instance.level.AutoTile(0.01f,target.coordinates.column - 1, target.coordinates.row - 1, 3, 3));
                 target = null;
             }
         }

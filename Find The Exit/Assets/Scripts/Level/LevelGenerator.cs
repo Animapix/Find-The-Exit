@@ -55,7 +55,47 @@ public class LevelGenerator : MonoBehaviour
                 tiles[column].Add(tile);
             }
         }
+
+        if (rowOffset != 0)
+        {
+            StartCoroutine(AutoTile(0.001f, rowOffset - 1));
+        }
+        else
+        {
+            StartCoroutine(AutoTile(0.001f, rowOffset));
+        }
+
     }
+
+    private IEnumerator AutoTile(float delayTime, int rowOffset)
+    {
+        //Wait for the specified delay time before continuing.
+        yield return new WaitForSeconds(delayTime);
+
+        for (int row = 0; row < chunkRows; row++)
+        {
+            for (int column = 0; column < chunkColumns; column++)
+            {
+                tiles[column][row + rowOffset].Autotile();
+            }
+        }
+    }
+
+    public IEnumerator AutoTile(float delayTime, int column, int row, int columns, int rows)
+    {
+        yield return new WaitForSeconds(delayTime);
+        for (int r = row; r < row + rows; r++)
+        {
+            for (int c = column; c < column + columns; c++)
+            {
+                if (c >= 0 && r >= 0 && c < tiles.Count && r < tiles[0].Count)
+                {
+                    tiles[c][r].Autotile();
+                }
+            }
+        }
+    }
+
 
     private Tile CreateTile(int column, int row, bool isWall)
     {

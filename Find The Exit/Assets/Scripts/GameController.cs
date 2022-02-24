@@ -4,8 +4,25 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] LevelGenerator level;
-    [SerializeField] RobotController robot;
+
+    public static GameController instance;
+
+    [SerializeField] public LevelGenerator level;
+    [SerializeField] public RobotController robot;
+
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
 
     private void Update()
     {

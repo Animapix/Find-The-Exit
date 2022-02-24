@@ -1143,10 +1143,6 @@ PrefabInstance:
       propertyPath: energyUI
       value: 
       objectReference: {fileID: 589360025}
-    - target: {fileID: 2050581628559740555, guid: 17181b7e31135f14c8e0a17912e39e9a, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2737483193724493827, guid: 17181b7e31135f14c8e0a17912e39e9a, type: 3}
       propertyPath: m_Name
       value: Robot
@@ -1194,10 +1190,6 @@ PrefabInstance:
     - target: {fileID: 2737483193724493852, guid: 17181b7e31135f14c8e0a17912e39e9a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5307404647142947910, guid: 17181b7e31135f14c8e0a17912e39e9a, type: 3}
-      propertyPath: energyToShoot
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17181b7e31135f14c8e0a17912e39e9a, type: 3}
