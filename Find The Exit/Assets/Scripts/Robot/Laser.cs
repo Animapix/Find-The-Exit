@@ -23,6 +23,7 @@ public class Laser : MonoBehaviour
 
     public void Fire()
     {
+        if (GetComponent<RobotController>().getEnergy() < energyToShoot) return;
         RaycastHit hit;
         if (Physics.Raycast(firePoint.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, laserImpactLayerMask))
         {

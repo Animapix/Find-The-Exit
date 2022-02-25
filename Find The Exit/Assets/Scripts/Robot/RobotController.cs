@@ -32,17 +32,18 @@ public class RobotController : MonoBehaviour
     {
         robotMovement = GetComponent<RobotMovement>();
         robotMovement.ConsumeEnergyCallback = ConsumeEnergy;
+       
         maxEnergy = energy;
 
         laser = GetComponent<Laser>();
         laser.ConsumeEnergyCallback = ConsumeEnergy;
+
     }
 
     private void Start()
     {
         energyUI.SetMax(energy);
     }
-
 
     private void Update()
     {
@@ -59,7 +60,6 @@ public class RobotController : MonoBehaviour
         if (energy < 0)
         {
             energy = 0;
-            robotMovement.timeToMove = 1.0f;
         }
     }
 
@@ -71,6 +71,11 @@ public class RobotController : MonoBehaviour
         {
             energy = maxEnergy;
         }
+    }
+
+    public float getEnergy()
+    {
+        return energy;
     }
 
 }

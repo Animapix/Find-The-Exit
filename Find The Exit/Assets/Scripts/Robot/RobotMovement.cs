@@ -43,6 +43,11 @@ public class RobotMovement : MonoBehaviour
 
         if (targetDirection != Vector3.zero && !isMoving)
         {
+            if (GetComponent<RobotController>().getEnergy() <= 0) 
+                timeToMove = 1.0f;
+            else 
+                timeToMove = 0.5f;
+
             if (targetDirection == currentDirection)
             {
                 if (CheckNextPosition())
