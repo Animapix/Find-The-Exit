@@ -32,6 +32,9 @@ public class Laser : MonoBehaviour
             lineRenderer.SetPosition(0, firePoint.position);
             lineRenderer.SetPosition(1, hit.point);
             target = hit.collider.GetComponentInParent<Tile>();
+            target.isWall = false;
+            target.DestroyWall(duration - 0.2f, 0.1f);
+            
         }
     }
 
@@ -47,9 +50,9 @@ public class Laser : MonoBehaviour
                 elapsedTime = 0;
                 isActive = false;
                 GetComponent<RobotController>().currentState = RobotController.State.Idle;
-                target.isWall = false;
-                StartCoroutine(GameController.instance.level.AutoTile(0.01f,target.coordinates.column - 1, target.coordinates.row - 1, 3, 3));
+                StartCoroutine(GameController.instance.level.AutoTile(0.0f, target.coordinates.column - 1, target.coordinates.row - 1, 3, 3));
                 target = null;
+                
             }
         }
         

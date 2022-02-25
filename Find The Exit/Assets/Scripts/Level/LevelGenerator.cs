@@ -58,11 +58,11 @@ public class LevelGenerator : MonoBehaviour
 
         if (rowOffset != 0)
         {
-            StartCoroutine(AutoTile(0.001f, rowOffset - 1));
+            StartCoroutine(AutoTile(0.1f, rowOffset - 1));
         }
         else
         {
-            StartCoroutine(AutoTile(0.001f, rowOffset));
+            StartCoroutine(AutoTile(0.1f, rowOffset));
         }
 
     }

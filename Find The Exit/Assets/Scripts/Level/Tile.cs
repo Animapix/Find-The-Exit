@@ -21,8 +21,7 @@ public class Tile : MonoBehaviour
     [SerializeField] LayerMask autoTileLayerMask;
     [SerializeField] List<Mesh> wallMeshes;
 
-    private bool _isWall = false;
-    public bool isWall { get{ return _isWall; } set { _isWall = value; Autotile(); } }
+    public bool isWall = false;
 
     private Dictionary<NeighboorFlags, int> bitMaskTable = new Dictionary<NeighboorFlags, int>() {
         { NeighboorFlags.None, 0 },
@@ -49,6 +48,8 @@ public class Tile : MonoBehaviour
     };
 
 
+    
+
     public (int column, int row) coordinates
     {
         get
@@ -59,10 +60,17 @@ public class Tile : MonoBehaviour
         }
     }
 
-    private void Awake()
+
+    public void DestroyTile(float duration,float delay)
     {
-        setWall();
+        StartCoroutine(DisolveTile(duration,delay));
     }
+
+    public void DestroyWall(float duration, float delay)
+    {
+        StartCoroutine(DisolveWall(duration, delay));
+    }
+
 
     public void Autotile()
     {
@@ -124,4 +132,32 @@ public class Tile : MonoBehaviour
             wall.GetComponent<MeshCollider>().sharedMesh = wallMeshes[wallID];
         }   
     }
+
+    public IEnumerator DisolveWall(float duration, float delay = 0.0f)
+    {
+        yield return new WaitForSeconds(delay);
+        float elapsedTime = duration;
+        while (elapsedTime > 0)
+        {
+            wall.GetComponent<Renderer>().material.SetFloat("_Amount", elapsedTime / duration);
+            elapsedTime -= Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    public IEnumerator DisolveTile(float duration, float delay = 0.0f)
+    {
+        yield return new WaitForSeconds(delay);
+        float elapsedTime = duration;
+        while (elapsedTime > 0)
+        {
+            wall.GetComponent<Renderer>().material.SetFloat("_Amount", elapsedTime / duration);
+            floor.GetComponent<Renderer>().material.SetFloat("_Amount", elapsedTime / duration);
+            elapsedTime -= Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(gameObject);
+    }
+
 }

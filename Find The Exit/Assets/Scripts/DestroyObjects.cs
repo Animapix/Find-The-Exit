@@ -8,10 +8,11 @@ public class DestroyObjects : MonoBehaviour
     {
         if (other.CompareTag("Tile"))
         {
-            Destroy(other.transform.parent.gameObject);
+            other.GetComponentInParent<Tile>().DestroyTile(Random.Range(1f, 4f), Random.Range(1f, 5f));
         }else if (other.CompareTag("Props"))
         {
             Destroy(other.gameObject);
+            
         }
 
     }
