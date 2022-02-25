@@ -11,6 +11,8 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] public int chunkColumns = 15;
     [SerializeField] public int chunkRows = 20;
 
+    [SerializeField] private float batterySpawnRate;
+
     private List<List<Tile>> tiles = new List<List<Tile>>();
 
     public int lastRow { get => tiles[0].Count; }
@@ -22,6 +24,7 @@ public class LevelGenerator : MonoBehaviour
             tiles.Add(new List<Tile>());
         }
 
+        CreateChunk();
         CreateChunk();
         CreateChunk();
     }
@@ -109,7 +112,7 @@ public class LevelGenerator : MonoBehaviour
         tile.isWall = isWall;
 
         int rnd = Random.Range(0, 100);
-        if (!isWall && rnd < 10)
+        if (!isWall && rnd < 100 * batterySpawnRate)
         {
             Battery battery = Instantiate(batteryPrefab, transform).GetComponent<Battery>();
             battery.transform.position = new Vector3(x, 2, z);

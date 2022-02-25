@@ -12,8 +12,10 @@ public class GameController : MonoBehaviour
     [SerializeField] public Scrolling scrolling;
 
     [SerializeField] public HUD hud;
+    [SerializeField] public GameOverUI gameOverUI;
 
-    [SerializeField] public float stageRows;
+    [SerializeField] float stageRows;
+    [SerializeField] float speedUpAmount = 0.3f;
 
     private int score = 0;
     private int stage = 0;
@@ -25,11 +27,6 @@ public class GameController : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this);
-        }
-        else
-        {
-            Destroy(this);
         }
     }
 
@@ -37,6 +34,8 @@ public class GameController : MonoBehaviour
     {
         hud.setScore(score);
         hud.setStage(stage);
+
+        hud.GetComponent<FadeCanvas>().FadeInUI();
     }
 
 
@@ -47,11 +46,11 @@ public class GameController : MonoBehaviour
             level.CreateChunk();
         }
 
-        if ((robot.coordinates.row - stage * stageRows) / stageRows > 1.0f)
+        if ((robot.coordinates.row - stage * stageRows) / stageRows > 1)
         {
             stage++;
             hud.setStage(stage);
-            scrolling.speed += 0.1f;
+            scrolling.speed += speedUpAmount;
         }
 
     }
@@ -60,5 +59,15 @@ public class GameController : MonoBehaviour
     {
         score += amount;
         hud.setScore(score);
+    }
+    public void GameOver()
+    {
+        gameOverUI.GetComponent<FadeCanvas>().FadeInUI();
+        hud.GetComponent<FadeCanvas>().FadeOutUI();
+
+        robot.GetComponent<RobotMovement>().enabled = false;
+
+        gameOverUI.SetGameData(score * stage, stage, score);
+
     }
 }

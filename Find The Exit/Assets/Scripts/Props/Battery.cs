@@ -6,7 +6,7 @@ public class Battery : MonoBehaviour
 {
 
     [SerializeField] float energy = 15;
-    [SerializeField] int scoreAmount = 10;
+    [SerializeField] int scoreAmount = 1;
 
     private void OnTriggerEnter(Collider other)
     {

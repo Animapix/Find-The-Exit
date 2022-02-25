@@ -8,12 +8,26 @@ public class DestroyObjects : MonoBehaviour
     {
         if (other.CompareTag("Tile"))
         {
-            other.GetComponentInParent<Tile>().DestroyTile(Random.Range(1f, 4f), Random.Range(1f, 5f));
+
+            float delay = Map(GetComponent<Scrolling>().speed, 2.0f, 5.0f, 5.0f, 2.0f);
+
+
+            other.GetComponentInParent<Tile>().DestroyTile(Random.Range(1f, 4f), Random.Range(0f, delay));
         }else if (other.CompareTag("Props"))
         {
             Destroy(other.gameObject);
             
         }
 
+        if (other.CompareTag("Player"))
+        {
+            GameController.instance.GameOver();
+        }
+    }
+
+
+    private float Map(float input, float inputMin, float inputMax, float min, float max)
+    {
+        return min + (input - inputMin) * (max - min) / (inputMax - inputMin);
     }
 }
